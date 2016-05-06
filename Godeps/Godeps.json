@@ -1,0 +1,6 @@
+{
+	"ImportPath": "github.com/benlaplanche/cf-basic-auth-route-service",
+	"GoVersion": "go1.6",
+	"GodepVersion": "v62",
+	"Deps": []
+}

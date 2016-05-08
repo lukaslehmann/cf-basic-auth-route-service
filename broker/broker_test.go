@@ -49,6 +49,10 @@ var _ = Describe("Basic Auth Service Broker", func() {
 			Expect(basicAuthService.PlanUpdatable).To(BeFalse())
 		})
 
+		It("returns a single plan", func() {
+			plans := basicAuthService.Plans
+			Expect(len(plans)).To(Equal(1))
+		})
 	})
 
 })

@@ -11,7 +11,7 @@ func (basicAuthBroker *BasicAuthBroker) Services() []brokerapi.Service {
 		brokerapi.Service{
 			ID:            "6a97b5b8-1d1f-44bc-98ae-01d8d1047555",
 			Name:          "p-basic-auth",
-			Description:   "Protect applications with basic-auth authentication in the routing path",
+			Description:   "Protect applications with basic authentication in the routing path",
 			Bindable:      true,
 			Tags:          []string{"route-service", "basic-auth"},
 			PlanUpdatable: false,

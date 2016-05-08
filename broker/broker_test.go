@@ -29,6 +29,26 @@ var _ = Describe("Basic Auth Service Broker", func() {
 			Expect(basicAuthService.ID).To(Equal("6a97b5b8-1d1f-44bc-98ae-01d8d1047555"))
 		})
 
+		It("returns the correct service name", func() {
+			Expect(basicAuthService.Name).To(Equal("p-basic-auth"))
+		})
+
+		It("returns the correct description", func() {
+			Expect(basicAuthService.Description).To(Equal("Protect applications with basic authentication in the routing path"))
+		})
+
+		It("returns the correct tags", func() {
+			Expect(basicAuthService.Tags).To(Equal([]string{"route-service", "basic-auth"}))
+		})
+
+		It("returns the service as bindable", func() {
+			Expect(basicAuthService.Bindable).To(BeTrue())
+		})
+
+		It("returns the service plan as not updateable", func() {
+			Expect(basicAuthService.PlanUpdatable).To(BeFalse())
+		})
+
 	})
 
 })

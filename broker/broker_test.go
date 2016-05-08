@@ -53,6 +53,14 @@ var _ = Describe("Basic Auth Service Broker", func() {
 			plans := basicAuthService.Plans
 			Expect(len(plans)).To(Equal(1))
 		})
+
+		It("returns the correct plan ID", func() {
+			Expect(basicAuthServicePlan.ID).To(Equal("7becb74f-ce9d-4f52-87a2-50cc1b2b4b8f"))
+		})
+
+		It("returns the correct plan name", func() {
+			Expect(basicAuthServicePlan.Name).To(Equal("reverse-name"))
+		})
 	})
 
 })

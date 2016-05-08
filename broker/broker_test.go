@@ -1,7 +1,7 @@
 package broker_test
 
 import (
-	. "github.com/benlaplanche/cf-basic-auth-route-service/broker"
+	"github.com/benlaplanche/cf-basic-auth-route-service/broker"
 	"github.com/pivotal-cf/brokerapi"
 
 	. "github.com/onsi/ginkgo"
@@ -19,9 +19,9 @@ var _ = Describe("Basic Auth Service Broker", func() {
 		basicAuthServicePlan = &basicAuthService.Plans[0]
 	})
 
-	Desccribe(".Services", func() {
+	Describe(".Services", func() {
 		It("returns a single service", func() {
-			services = basicAuthBroker.Services()
+			services := basicAuthBroker.Services()
 			Expect(len(services)).To(Equal(1))
 		})
 

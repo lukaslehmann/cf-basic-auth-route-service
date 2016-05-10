@@ -73,6 +73,27 @@ var _ = Describe("Basic Auth Service Broker", func() {
 		It("returns the correct plan bullet points", func() {
 			Expect(basicAuthServicePlan.Metadata.Bullets).To(Equal([]string{"Routing service", "Provides basic authentication", "Password is the application URL before the dot (.) in reverse", "Username is admin"}))
 		})
+
+		It("returns the correct service metadata display name", func() {
+			Expect(basicAuthService.Metadata.DisplayName).To(Equal("Basic Auth"))
+		})
+
+		It("returns the correct service metadata support url", func() {
+			Expect(basicAuthService.Metadata.SupportUrl).To(Equal("https://github.com/benlaplanche/cf-basic-auth-route-service/"))
+		})
+
+		It("returns the correct service metadata documentation url", func() {
+			Expect(basicAuthService.Metadata.DocumentationUrl).To(Equal("https://github.com/benlaplanche/cf-basic-auth-route-service/"))
+		})
+
+		It("returns the correct service metadata provider display name", func() {
+			Expect(basicAuthService.Metadata.ProviderDisplayName).To(Equal("Ben Laplanche"))
+		})
+
+		It("returns the correct service metadata long description", func() {
+			Expect(basicAuthService.Metadata.LongDescription).To(Equal("Protect access to your application with this basic auth routing service"))
+		})
+
 	})
 
 })

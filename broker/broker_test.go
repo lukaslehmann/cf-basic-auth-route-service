@@ -98,5 +98,32 @@ var _ = Describe("Basic Auth Service Broker", func() {
 			})
 		})
 	})
+	Describe(".Provision", func() {
+		It("does not return an error", func() {
+			_, err := basicAuthBroker.Provision("instance-id", brokerapi.ProvisionDetails{}, false)
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
+
+	Describe(".Bind", func() {
+		It("does not return an error", func() {
+			_, err := basicAuthBroker.Bind("instance-id", "binding-id", brokerapi.BindDetails{})
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
+
+	Describe(".Unbind", func() {
+		It("does not return an error", func() {
+			err := basicAuthBroker.Unbind("instance-id", "binding-id", brokerapi.UnbindDetails{})
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
+
+	Describe(".Deprovision", func() {
+		It("does not return an error", func() {
+			_, err := basicAuthBroker.Deprovision("instance-id", brokerapi.DeprovisionDetails{}, false)
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
 
 })

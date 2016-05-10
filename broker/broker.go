@@ -15,6 +15,7 @@ func (basicAuthBroker *BasicAuthBroker) Services() []brokerapi.Service {
 			Bindable:      true,
 			Tags:          []string{"route-service", "basic-auth"},
 			PlanUpdatable: false,
+			Requires:      []brokerapi.RequiredPermission{brokerapi.PermissionRouteForwarding},
 			Plans: []brokerapi.ServicePlan{
 				brokerapi.ServicePlan{
 					ID:          "7becb74f-ce9d-4f52-87a2-50cc1b2b4b8f",

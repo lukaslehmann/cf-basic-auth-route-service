@@ -49,6 +49,10 @@ var _ = Describe("Basic Auth Service Broker", func() {
 			Expect(basicAuthService.PlanUpdatable).To(BeFalse())
 		})
 
+		It("requires route forwarding", func() {
+			Expect(basicAuthService.Requires).To(Equal([]brokerapi.RequiredPermission{brokerapi.PermissionRouteForwarding}))
+		})
+
 		Describe(".Plans", func() {
 			It("returns a single plan", func() {
 				plans := basicAuthService.Plans

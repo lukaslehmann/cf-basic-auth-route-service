@@ -49,51 +49,54 @@ var _ = Describe("Basic Auth Service Broker", func() {
 			Expect(basicAuthService.PlanUpdatable).To(BeFalse())
 		})
 
-		It("returns a single plan", func() {
-			plans := basicAuthService.Plans
-			Expect(len(plans)).To(Equal(1))
+		Describe(".Plans", func() {
+			It("returns a single plan", func() {
+				plans := basicAuthService.Plans
+				Expect(len(plans)).To(Equal(1))
+			})
+
+			It("returns the correct plan ID", func() {
+				Expect(basicAuthServicePlan.ID).To(Equal("7becb74f-ce9d-4f52-87a2-50cc1b2b4b8f"))
+			})
+
+			It("returns the correct plan name", func() {
+				Expect(basicAuthServicePlan.Name).To(Equal("reverse-name"))
+			})
+
+			It("returns the correct plan description", func() {
+				Expect(basicAuthServicePlan.Description).To(Equal("The password is the url before the dot (.) in reverse, username is admin"))
+			})
+
+			It("returns the correct plan display name", func() {
+				Expect(basicAuthServicePlan.Metadata.DisplayName).To(Equal("Reverse Name"))
+			})
+
+			It("returns the correct plan bullet points", func() {
+				Expect(basicAuthServicePlan.Metadata.Bullets).To(Equal([]string{"Routing service", "Provides basic authentication", "Password is the application URL before the dot (.) in reverse", "Username is admin"}))
+			})
 		})
 
-		It("returns the correct plan ID", func() {
-			Expect(basicAuthServicePlan.ID).To(Equal("7becb74f-ce9d-4f52-87a2-50cc1b2b4b8f"))
-		})
+		Describe(".Metadata", func() {
+			It("returns the correct service metadata display name", func() {
+				Expect(basicAuthService.Metadata.DisplayName).To(Equal("Basic Auth"))
+			})
 
-		It("returns the correct plan name", func() {
-			Expect(basicAuthServicePlan.Name).To(Equal("reverse-name"))
-		})
+			It("returns the correct service metadata support url", func() {
+				Expect(basicAuthService.Metadata.SupportUrl).To(Equal("https://github.com/benlaplanche/cf-basic-auth-route-service/"))
+			})
 
-		It("returns the correct plan description", func() {
-			Expect(basicAuthServicePlan.Description).To(Equal("The password is the url before the dot (.) in reverse, username is admin"))
-		})
+			It("returns the correct service metadata documentation url", func() {
+				Expect(basicAuthService.Metadata.DocumentationUrl).To(Equal("https://github.com/benlaplanche/cf-basic-auth-route-service/"))
+			})
 
-		It("returns the correct plan display name", func() {
-			Expect(basicAuthServicePlan.Metadata.DisplayName).To(Equal("Reverse Name"))
-		})
+			It("returns the correct service metadata provider display name", func() {
+				Expect(basicAuthService.Metadata.ProviderDisplayName).To(Equal("Ben Laplanche"))
+			})
 
-		It("returns the correct plan bullet points", func() {
-			Expect(basicAuthServicePlan.Metadata.Bullets).To(Equal([]string{"Routing service", "Provides basic authentication", "Password is the application URL before the dot (.) in reverse", "Username is admin"}))
+			It("returns the correct service metadata long description", func() {
+				Expect(basicAuthService.Metadata.LongDescription).To(Equal("Protect access to your application with this basic auth routing service"))
+			})
 		})
-
-		It("returns the correct service metadata display name", func() {
-			Expect(basicAuthService.Metadata.DisplayName).To(Equal("Basic Auth"))
-		})
-
-		It("returns the correct service metadata support url", func() {
-			Expect(basicAuthService.Metadata.SupportUrl).To(Equal("https://github.com/benlaplanche/cf-basic-auth-route-service/"))
-		})
-
-		It("returns the correct service metadata documentation url", func() {
-			Expect(basicAuthService.Metadata.DocumentationUrl).To(Equal("https://github.com/benlaplanche/cf-basic-auth-route-service/"))
-		})
-
-		It("returns the correct service metadata provider display name", func() {
-			Expect(basicAuthService.Metadata.ProviderDisplayName).To(Equal("Ben Laplanche"))
-		})
-
-		It("returns the correct service metadata long description", func() {
-			Expect(basicAuthService.Metadata.LongDescription).To(Equal("Protect access to your application with this basic auth routing service"))
-		})
-
 	})
 
 })

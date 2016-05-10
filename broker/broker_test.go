@@ -61,6 +61,18 @@ var _ = Describe("Basic Auth Service Broker", func() {
 		It("returns the correct plan name", func() {
 			Expect(basicAuthServicePlan.Name).To(Equal("reverse-name"))
 		})
+
+		It("returns the correct plan description", func() {
+			Expect(basicAuthServicePlan.Description).To(Equal("The password is the url before the dot (.) in reverse, username is admin"))
+		})
+
+		It("returns the correct plan display name", func() {
+			Expect(basicAuthServicePlan.Metadata.DisplayName).To(Equal("Reverse Name"))
+		})
+
+		It("returns the correct plan bullet points", func() {
+			Expect(basicAuthServicePlan.Metadata.Bullets).To(Equal([]string{"Routing service", "Provides basic authentication", "Password is the application URL before the dot (.) in reverse", "Username is admin"}))
+		})
 	})
 
 })

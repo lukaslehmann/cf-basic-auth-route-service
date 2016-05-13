@@ -15,7 +15,7 @@ var _ = Describe("Loading the broker Config file ", func() {
 
 		var (
 			configPath     string
-			brokerConfig   config.BrokerConfiguration
+			brokerConfig   config.Config
 			parseConfigErr error
 		)
 

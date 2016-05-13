@@ -16,16 +16,15 @@ type BrokerConfiguration struct {
 	BrokerPassword  string `yaml:"broker_password"`
 }
 
-func ParseConfig(path string) (BrokerConfiguration, error) {
+func ParseConfig(path string) (Config, error) {
 	file, err := os.Open(path)
 	if err != nil {
-		return BrokerConfiguration{}, err
+		return Config{}, err
 	}
 
-	var config BrokerConfiguration
-	if err := candiedyaml.NewDecoder(file).Decode(&config); err != nil {
-		return BrokerConfiguration{}, err
+	var decodedConfig Config
+	if err := candiedyaml.NewDecoder(file).Decode(&decodedConfig); err != nil {
+		return Config{}, err
 	}
-
-	return config, nil
+	return decodedConfig, nil
 }

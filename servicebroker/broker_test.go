@@ -2,6 +2,7 @@ package broker_test
 
 import (
 	"github.com/benlaplanche/cf-basic-auth-route-service/servicebroker"
+	"github.com/benlaplanche/cf-basic-auth-route-service/servicebroker/config"
 	"github.com/pivotal-cf/brokerapi"
 
 	. "github.com/onsi/ginkgo"
@@ -14,7 +15,12 @@ var _ = Describe("Basic Auth Service Broker", func() {
 	var basicAuthServicePlan *brokerapi.ServicePlan
 
 	BeforeEach(func() {
-		basicAuthBroker = &broker.BasicAuthBroker{}
+		basicAuthBroker = &broker.BasicAuthBroker{
+			Config: config.Config{
+				config.BrokerConfiguration{
+					RouteServiceURL: "https://my-route-service.com",
+					BrokerUserName:  "admin",
+					BrokerPassword:  "letmein"}}}
 		basicAuthService = &basicAuthBroker.Services()[0]
 		basicAuthServicePlan = &basicAuthService.Plans[0]
 	})
@@ -113,6 +119,18 @@ var _ = Describe("Basic Auth Service Broker", func() {
 		It("does not return an error", func() {
 			_, err := basicAuthBroker.Bind("instance-id", "binding-id", brokerapi.BindDetails{})
 			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("returns the correct route service url", func() {
+			credentials, err := basicAuthBroker.Bind("instance-id", "binding-id", brokerapi.BindDetails{})
+			Expect(err).ToNot(HaveOccurred())
+
+			expectedResult := brokerapi.Binding{
+				Credentials:     "",
+				RouteServiceURL: "https://my-route-service.com",
+			}
+
+			Expect(credentials).To(Equal(expectedResult))
 		})
 	})
 

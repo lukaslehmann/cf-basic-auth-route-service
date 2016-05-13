@@ -1,10 +1,13 @@
 package broker
 
 import (
+	"github.com/benlaplanche/cf-basic-auth-route-service/servicebroker/config"
 	"github.com/pivotal-cf/brokerapi"
 )
 
-type BasicAuthBroker struct{}
+type BasicAuthBroker struct {
+	Config config.Config
+}
 
 func (basicAuthBroker *BasicAuthBroker) Services() []brokerapi.Service {
 	return []brokerapi.Service{
@@ -47,7 +50,10 @@ func (basicAuthBroker *BasicAuthBroker) Deprovision(instanceID string, details b
 }
 
 func (basicAuthBroker *BasicAuthBroker) Bind(instanceID string, bindingID string, details brokerapi.BindDetails) (brokerapi.Binding, error) {
-	return brokerapi.Binding{}, nil
+	return brokerapi.Binding{
+			Credentials:     "",
+			RouteServiceURL: basicAuthBroker.Config.BrokerConfiguration.RouteServiceURL},
+		nil
 }
 
 func (basicAuthBroker *BasicAuthBroker) Unbind(instanceID string, bindingID string, details brokerapi.UnbindDetails) error {

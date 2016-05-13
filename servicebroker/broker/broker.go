@@ -59,3 +59,11 @@ func (basicAuthBroker *BasicAuthBroker) Bind(instanceID string, bindingID string
 func (basicAuthBroker *BasicAuthBroker) Unbind(instanceID string, bindingID string, details brokerapi.UnbindDetails) error {
 	return nil
 }
+
+func (basicAuthBroker *BasicAuthBroker) LastOperation(instanceID string) (brokerapi.LastOperation, error) {
+	return brokerapi.LastOperation{}, nil
+}
+
+func (basicAuthBroker *BasicAuthBroker) Update(instanceID string, details brokerapi.UpdateDetails, asyncAllowed bool) (brokerapi.IsAsync, error) {
+	return false, nil
+}

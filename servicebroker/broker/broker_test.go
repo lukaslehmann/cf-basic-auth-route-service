@@ -1,7 +1,7 @@
 package broker_test
 
 import (
-	"github.com/benlaplanche/cf-basic-auth-route-service/servicebroker"
+	"github.com/benlaplanche/cf-basic-auth-route-service/servicebroker/broker"
 	"github.com/benlaplanche/cf-basic-auth-route-service/servicebroker/config"
 	"github.com/pivotal-cf/brokerapi"
 

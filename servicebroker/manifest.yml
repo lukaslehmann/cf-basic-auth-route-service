@@ -1,0 +1,7 @@
+---
+applications:
+- name: basic-auth-broker
+  memory: 512M
+  random-route: true
+  env:
+    BROKER_CONFIG_PATH: assets/config.yml

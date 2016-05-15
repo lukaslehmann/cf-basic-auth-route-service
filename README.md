@@ -29,3 +29,10 @@ For example:
 `https://pivotal.cfapps.io` will have a password `latovip`
 
 Why is the password is in reverse!? Because it's a pretty simple implementation, it also means the routing service can be stateless as we can determine what the password should be during runtime, which makes for a nice simple reference implementation.
+
+# TODO
+
+* Rewrite the actual route-service and refactor
+* Add tests
+* Finish writing readme and getting started
+* Integration tests?

@@ -1,12 +1,12 @@
 # Basic Authentication Route Service
 
 Using the new route services functionality available in Cloud Foundry, you can now bind applications to routing services.
-Traffic sent to your application is routed through the bound routing service before continuning onto your service.
+Traffic sent to your application is routed through the bound routing service before continuing onto your service.
 
 This allows you to perform actions on the HTTP traffic, such as enforcing basic authentication (this sample app), rate limiting or logging.
 
 For more details see:
-* (Route Services Documentation)[http://docs.cloudfoundry.org/services/route-services.html]
+* [Route Services Documentation](http://docs.cloudfoundry.org/services/route-services.html)
 
 ## Getting Started
 
@@ -15,7 +15,9 @@ There are two parts to this repository
 
 ## Overview
 
-### Service Broker - This is a service broker which conforms to the Services API. 
+### Service Broker
+
+This is a service broker which conforms to the Services API. 
 
 This registers a service in the market place called `p-basic-auth`. It currently only has one service plan called `reverse-name`. This service will protect you application with basic authentication.
 The username is hard coded to `admin` and the password is based upon your applications URL.

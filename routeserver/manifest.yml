@@ -1,0 +1,4 @@
+---
+applications:
+- name: basic-auth-router
+  random-route: true

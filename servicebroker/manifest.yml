@@ -4,4 +4,4 @@ applications:
   memory: 512M
   random-route: true
   env:
-    BROKER_CONFIG_PATH: assets/config.yml
+    BROKER_CONFIG_PATH: config.yml

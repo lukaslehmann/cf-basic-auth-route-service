@@ -1,9 +1,12 @@
 package proxy_test
 
 import (
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 
+	"github.com/benlaplanche/cf-basic-auth-route-service/routeserver/proxy"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -16,15 +19,37 @@ var _ = Describe("Proxy", func() {
 		CF_FORWARDED_URL   = "https://my-app-1.pcf.io"
 	)
 
+	var proxyServer http.Handler
+
+	fakeProtectedApp := func() {
+		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte(`hello world`))
+		})
+
+		port := os.Getenv("PORT")
+		if port == "" {
+			port = "9999"
+		}
+
+		if err := http.ListenAndServe(CF_FORWARDED_URL+port, nil); err != nil {
+			log.Fatal("ListenAndServe:", err)
+		}
+	}
+
+	BeforeEach(func() {
+		proxyServer = proxy.New()
+		fakeProtectedApp()
+	})
+
 	makeRequest := func() *httptest.ResponseRecorder {
 		recorder := httptest.NewRecorder()
-		request, _ = http.NewRequest(GET, "/", nil)
+		request, _ := http.NewRequest("GET", "/", nil)
 
 		request.Header.Add("X-CF-Forwarded-Url", CF_FORWARDED_URL)
 		request.Header.Add("X-Cf-Proxy-Signature", CF_PROXY_SIGNATURE)
 		request.Header.Add("X-Cf-Proxy-Metadata", CF_PROXY_METADATA)
 
-		proxy.NewProxy(recorder, request)
+		proxyServer.ServeHTTP(recorder, request)
 		return recorder
 	}
 

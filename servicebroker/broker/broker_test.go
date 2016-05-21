@@ -148,4 +148,18 @@ var _ = Describe("Basic Auth Service Broker", func() {
 		})
 	})
 
+	Describe(".LastOperation", func() {
+		It("does not return an error", func() {
+			_, err := basicAuthBroker.LastOperation("instance-id")
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
+
+	Describe(".Update", func() {
+		It("does not return an error", func() {
+			_, err := basicAuthBroker.Update("instance-id", brokerapi.UpdateDetails{}, false)
+			Expect(err).ToNot(HaveOccurred())
+		})
+	})
+
 })

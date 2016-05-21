@@ -50,8 +50,8 @@ var _ = Describe("Proxy", func() {
 		request, _ := http.NewRequest("GET", "/", nil)
 
 		request.Header.Add("X-CF-Forwarded-Url", CF_FORWARDED_URL)
-		request.Header.Add("X-Cf-Proxy-Signature", CF_PROXY_SIGNATURE)
-		request.Header.Add("X-Cf-Proxy-Metadata", CF_PROXY_METADATA)
+		request.Header.Add("X-CF-Proxy-Signature", CF_PROXY_SIGNATURE)
+		request.Header.Add("X-CF-Proxy-Metadata", CF_PROXY_METADATA)
 
 		proxyServer.ServeHTTP(recorder, request)
 		return recorder
@@ -68,14 +68,14 @@ var _ = Describe("Proxy", func() {
 		It("should contain the X-CF-Proxy-Signature header", func() {
 			response := makeRequest()
 
-			header := response.Header().Get("X-Cf-Proxy-Signature")
+			header := response.Header().Get("X-CF-Proxy-Signature")
 			Expect(header).To(Equal(CF_PROXY_SIGNATURE))
 		})
 
 		It("should contain the X-CF-Proxy-Metadata header", func() {
 			response := makeRequest()
 
-			header := response.Header().Get("X-Cf-Proxy-Metadata")
+			header := response.Header().Get("X-CF-Proxy-Metadata")
 			Expect(header).To(Equal(CF_PROXY_METADATA))
 		})
 	})

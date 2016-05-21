@@ -6,6 +6,8 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
+
+	"github.com/pivotal-golang/lager"
 )
 
 const (
@@ -24,11 +26,14 @@ type config struct {
 }
 
 func main() {
-	log.SetOutput(os.Stdout)
+
+	logger := lager.NewLogger("p-basic-auth-router")
+	logger.RegisterSink(lager.NewWriterSink(os.Stdout, lager.DEBUG))
+	logger.RegisterSink(lager.NewWriterSink(os.Stderr, lager.ERROR))
 	c = configFromEnvironmentVariables()
 
 	http.Handle("/", wrapper(newProxy()))
-	log.Fatal(http.ListenAndServe(":"+getPort(), nil))
+	logger.Fatal("http-listen", http.ListenAndServe(":"+getPort(), nil))
 }
 
 func configFromEnvironmentVariables() *config {
@@ -51,6 +56,21 @@ func newProxy() http.Handler {
 
 			req.URL = url
 			req.Host = url.Host
+			logger := lager.NewLogger("proxy")
+			logger.RegisterSink(lager.NewWriterSink(os.Stdout, lager.DEBUG))
+
+			logger.Debug("X-Cf-Forwarded-URL", lager.Data{
+				"X-Cf-Forwarded-Url": req.Header.Get(CF_FORWARDED_URL),
+			})
+
+			logger.Debug("X-CF-Proxy-Signature", lager.Data{
+				"X-CF-Proxy-Signature": req.Header.Get("X-CF-Proxy-Signature"),
+			})
+
+			logger.Debug("X-CF-Proxy-Metadata", lager.Data{
+				"X-CF-Proxy-Metadata": req.Header.Get("X-CF-Proxy-Metadata"),
+			})
+
 		},
 	}
 	return proxy

@@ -11,7 +11,7 @@ func StripAndReverse(input string) string {
 	// hostname = "https://myapp"
 
 	hostname = removeProtocol(hostname)
-	// hostname = "://myapp"
+	// hostname = "//myapp"
 
 	hostname = removeSpecialCharacters(hostname)
 	// hostname = "myapp"

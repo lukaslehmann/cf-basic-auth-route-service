@@ -16,7 +16,8 @@ var _ = Describe("Proxy", func() {
 	const (
 		CF_PROXY_SIGNATURE = "5ASjPwv2H3IUO1LzEQYxfH6ceTt_wFGmjG1ESFS4rkAvO1fTBRsVf9QT8pXPg8cRGx4LK1LZWX5WkrT2DB5iKq4w2FM80OoRAcM_LcNz7tRPcniqwMO1adkrvulP2-LuTktyVKN8w2KaPImKkTD7vrnxFA=="
 		CF_PROXY_METADATA  = "eyJub25jZSI6IjBxcGdYZmZNVVNQQnZwV3UifQ=="
-		CF_FORWARDED_URL   = "https://my-app-1.pcf.io"
+		//		CF_FORWARDED_URL   = "https://my-app-1.pcf.io"
+		CF_FORWARDED_URL = "http://localhost"
 	)
 
 	var proxyServer http.Handler
@@ -31,14 +32,17 @@ var _ = Describe("Proxy", func() {
 			port = "9999"
 		}
 
-		if err := http.ListenAndServe(CF_FORWARDED_URL+port, nil); err != nil {
+		if err := http.ListenAndServe("localhost:"+port, nil); err != nil {
 			log.Fatal("ListenAndServe:", err)
 		}
 	}
 
+	BeforeSuite(func() {
+		go fakeProtectedApp()
+	})
+
 	BeforeEach(func() {
 		proxyServer = proxy.New()
-		fakeProtectedApp()
 	})
 
 	makeRequest := func() *httptest.ResponseRecorder {

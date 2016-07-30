@@ -1,25 +1,22 @@
 package proxy
 
 import (
-	"log"
+	"crypto/tls"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 )
 
-func New() http.Handler {
-	p := &httputil.ReverseProxy{
-		Director: func(req *http.Request) {
-			forwardedURL := req.Header.Get("X-CF-Forwarded-URL")
-			url, err := url.Parse(forwardedURL)
-			if err != nil {
-				log.Fatalln(err.Error())
-			}
+type BasicAuthTransport struct {
+	transport http.RoundTripper
+}
 
-			req.URL = url
-			req.Host = url.Host
+func NewBasicAuthTransport() http.RoundTripper {
+	return &BasicAuthTransport{
+		transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 	}
+}
 
-	return p
+func (t *BasicAuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	return nil, nil
 }

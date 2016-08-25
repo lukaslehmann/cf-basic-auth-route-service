@@ -1,5 +1,8 @@
 # Basic Authentication Route Service
 
+**NOTE** This is still a work in progress, so the password is not yet the reverse of the URL as promised below. It is either defaulted to `letmein` or can be overridden as an environment variable.
+Refer to the example `config.yml` file in the `servicebroker` folder. All other functionality works as stated
+
 Using the new route services functionality available in Cloud Foundry, you can now bind applications to routing services.
 Traffic sent to your application is routed through the bound routing service before continuing onto your service.
 

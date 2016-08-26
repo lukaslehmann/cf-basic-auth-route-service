@@ -2,6 +2,7 @@ package proxy_test
 
 import (
 	. "github.com/benlaplanche/cf-basic-auth-route-service/routeserver/proxy"
+	utils "github.com/benlaplanche/cf-basic-auth-route-service/routeserver/utils"
 
 	"net/http"
 
@@ -56,5 +57,22 @@ var _ = Describe("Proxy", func() {
 	})
 
 	Context("The added gorouter headers are present", func() {
+
+		JustBeforeEach(func() {
+			password := utils.StripAndReverse(helloworldServer.URL())
+			req.SetBasicAuth("admin", password)
+		})
+
+		Context("Without valid basic authentication username and password", func() {
+			It("returns an error", func() {
+				req.SetBasicAuth("admin", "invalid-password")
+
+				res, err := transport.RoundTrip(req)
+				Expect(err).ToNot(BeNil())
+				Expect(res.StatusCode).To(Equal(403))
+				Expect(helloworldServer.ReceivedRequests()).To(HaveLen(0))
+			})
+		})
+
 	})
 })

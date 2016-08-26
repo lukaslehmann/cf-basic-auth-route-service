@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/benlaplanche/cf-basic-auth-route-service/routeserver/utils"
 )
 
 type BasicAuthTransport struct {
@@ -25,6 +27,19 @@ func (b *BasicAuthTransport) RoundTrip(req *http.Request) (*http.Response, error
 	if err != nil {
 		log.Printf("Invalid headers. %+v\n", req.Header)
 		return nil, err
+	}
+
+	url := req.Header.Get("X-CF-Forwarded-Url")
+	expectedUsername := "admin"
+	expectedPassword := utils.StripAndReverse(req.Header.Get(url))
+
+	if !checkAuthorization(expectedUsername, expectedPassword, req) {
+		response := &http.Response{
+			StatusCode: http.StatusForbidden,
+		}
+
+		err := errors.New(fmt.Sprintf("Unauthorized access attempt to %s", url))
+		return response, err
 	}
 
 	return nil, nil
@@ -48,4 +63,9 @@ func checkHeaders(r *http.Request) error {
 
 func missingHeaderError(header string) error {
 	return errors.New(fmt.Sprintf("Missing expected header: %s", header))
+}
+
+func checkAuthorization(expectedUsername string, expectedPassword string, r *http.Request) bool {
+	providedUsername, providedPassword, isOk := r.BasicAuth()
+	return isOk && providedUsername == expectedUsername && providedPassword == expectedPassword
 }

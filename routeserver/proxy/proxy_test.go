@@ -25,7 +25,7 @@ var _ = Describe("Proxy", func() {
 		req, _ = http.NewRequest("GET", helloworldServer.URL(), nil)
 		transport = NewBasicAuthTransport(true)
 
-		req.Header.Add("X-CF-Forwarded-Url", "https://my-hello-world-app.com")
+		req.Header.Add("X-CF-Forwarded-Url", string(helloworldServer.URL()))
 		req.Header.Add("X-CF-Proxy-Metadata", "metadata-goes-here")
 		req.Header.Add("X-CF-Proxy-Signature", "signature-goes-here")
 	})

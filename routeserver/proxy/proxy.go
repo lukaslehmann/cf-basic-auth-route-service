@@ -29,8 +29,10 @@ func (b *BasicAuthTransport) RoundTrip(req *http.Request) (*http.Response, error
 	}
 
 	url := req.Header.Get("X-CF-Forwarded-Url")
+
 	expectedUsername := "admin"
 	expectedPassword := utils.StripAndReverse(url)
+	fmt.Printf("Expected password == %s", expectedPassword)
 
 	if !checkAuthorization(expectedUsername, expectedPassword, req) {
 		response := &http.Response{
@@ -66,5 +68,8 @@ func missingHeaderError(header string) error {
 
 func checkAuthorization(expectedUsername string, expectedPassword string, r *http.Request) bool {
 	providedUsername, providedPassword, isOk := r.BasicAuth()
+	fmt.Printf("Provided username == %s", providedUsername)
+	fmt.Printf("Provided password == %s", providedPassword)
+	fmt.Printf("Isok? == %s", isOk)
 	return isOk && providedUsername == expectedUsername && providedPassword == expectedPassword
 }

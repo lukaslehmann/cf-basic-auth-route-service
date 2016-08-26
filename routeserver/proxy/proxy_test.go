@@ -58,11 +58,6 @@ var _ = Describe("Proxy", func() {
 
 	Context("The added gorouter headers are present", func() {
 
-		JustBeforeEach(func() {
-			password := utils.StripAndReverse(helloworldServer.URL())
-			req.SetBasicAuth("admin", password)
-		})
-
 		Context("Without valid basic authentication username and password", func() {
 			It("returns an error", func() {
 				req.SetBasicAuth("admin", "invalid-password")
@@ -71,6 +66,28 @@ var _ = Describe("Proxy", func() {
 				Expect(err).ToNot(BeNil())
 				Expect(res.StatusCode).To(Equal(403))
 				Expect(helloworldServer.ReceivedRequests()).To(HaveLen(0))
+			})
+		})
+
+		Context("With valid basic authentication username and password", func() {
+
+			JustBeforeEach(func() {
+				password := utils.StripAndReverse(helloworldServer.URL())
+				req.SetBasicAuth("admin", password)
+			})
+
+			It("returns the correct HTTP Status code", func() {
+				res, err := transport.RoundTrip(req)
+
+				Expect(err).To(BeNil())
+				Expect(res.StatusCode).To(Equal(200))
+			})
+
+			It("returns the expected http body test", func() {
+				res, err := transport.RoundTrip(req)
+
+				Expect(err).To(BeNil())
+				Expect(res.Body).To(Equal("Hello World! I'm protected with basic authentication"))
 			})
 		})
 

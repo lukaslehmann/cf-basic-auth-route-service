@@ -4,7 +4,6 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/benlaplanche/cf-basic-auth-route-service/routeserver/utils"
@@ -25,13 +24,13 @@ func NewBasicAuthTransport(skipSSLValidation bool) http.RoundTripper {
 func (b *BasicAuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
 	err := checkHeaders(req)
 	if err != nil {
-		log.Printf("Invalid headers. %+v\n", req.Header)
+		fmt.Printf("Invalid headers. %+v\n", req.Header)
 		return nil, err
 	}
 
 	url := req.Header.Get("X-CF-Forwarded-Url")
 	expectedUsername := "admin"
-	expectedPassword := utils.StripAndReverse(req.Header.Get(url))
+	expectedPassword := utils.StripAndReverse(url)
 
 	if !checkAuthorization(expectedUsername, expectedPassword, req) {
 		response := &http.Response{

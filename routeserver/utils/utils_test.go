@@ -8,45 +8,33 @@ import (
 )
 
 var _ = Describe("Utils", func() {
-	var example1 string = "https://myapp.pcf.io"
-	var example2 string = "http://my-app.pcf.io"
-	var example3 string = "https://my-app-1.pcf.io"
-	var example4 string = "http://127.0.0.1"
-	var example5 string = "https://127.0.0.1:8080"
 
 	Describe(".Strip Special characters and reverse the string", func() {
-		Context(".without special characters", func() {
-			It("should correctly reverse the string", func() {
-				result := utils.StripAndReverse(example1)
 
-				Expect(result).To(Equal("ppaym"))
-			})
-
-			It("should work with numbers", func() {
-				result := utils.StripAndReverse(example3)
-				Expect(result).To(Equal("1ppaym"))
-			})
-
+		It("without special characters or numbers", func() {
+			result := utils.StripAndReverse("https://myapp.pcf.io")
+			Expect(result).To(Equal("ppaym"))
 		})
 
-		Context(".with special characters", func() {
-			It("should correctly reverse the string", func() {
-				result := utils.StripAndReverse(example2)
-
-				Expect(result).To(Equal("ppaym"))
-			})
-
-			It("should correctly reverse the IP address", func() {
-				result := utils.StripAndReverse(example4)
-
-				Expect(result).To(Equal("721"))
-			})
-
-			It("should correctly reverse the IP address when it also has a port", func() {
-				result := utils.StripAndReverse(example5)
-
-				Expect(result).To(Equal("721"))
-			})
+		It("with a special character", func() {
+			result := utils.StripAndReverse("http://my-app.pcf.io")
+			Expect(result).To(Equal("ppaym"))
 		})
+
+		It("with a special character and number", func() {
+			result := utils.StripAndReverse("https://my-app-1.pcf.io")
+			Expect(result).To(Equal("1ppaym"))
+		})
+
+		It("with an ip address", func() {
+			result := utils.StripAndReverse("http://127.0.0.1")
+			Expect(result).To(Equal("721"))
+		})
+
+		It("with an ip address and port", func() {
+			result := utils.StripAndReverse("https://127.0.0.1:8080")
+			Expect(result).To(Equal("721"))
+		})
+
 	})
 })
